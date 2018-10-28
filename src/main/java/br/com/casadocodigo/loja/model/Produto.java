@@ -1,5 +1,8 @@
 package br.com.casadocodigo.loja.model;
 
+import java.util.List;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +17,8 @@ public class Produto {
 	private String titulo;
 	private String descricao;
 	private Integer paginas;
+	@ElementCollection //adiciona o preco com o produto, em uma outra tabela
+	private List<Preco> precos;
 	
 	
 	public int getId() {
@@ -41,6 +46,12 @@ public class Produto {
 		this.paginas = paginas;
 	}
 	
+	public List<Preco> getPrecos() {
+		return precos;
+	}
+	public void setPrecos(List<Preco> precos) {
+		this.precos = precos;
+	}
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", paginas=" + paginas + "]";
