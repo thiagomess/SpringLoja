@@ -6,9 +6,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.casadocodigo.loja.controllers.HomeController;
+import br.com.casadocodigo.loja.daos.ProdutoDao;
 
 @EnableWebMvc // recurso de Web MVC do SpringMVC
-@ComponentScan(basePackageClasses= {HomeController.class}) //mapeia onde estao os controllers
+@ComponentScan(basePackageClasses= {HomeController.class, ProdutoDao.class}) //mapeia onde estao os controllers
 public class AppWebConfiguration {
 	
 	@Bean  //Para o Spring gerencia

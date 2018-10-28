@@ -1,5 +1,8 @@
 package br.com.casadocodigo.loja.config;
 
+import javax.servlet.Filter;
+
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 
@@ -15,12 +18,19 @@ public class ServeletSpringMvc extends AbstractAnnotationConfigDispatcherServlet
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] {AppWebConfiguration.class}; //Mapeia a classe de configurações
+		return new Class[] {AppWebConfiguration.class, JPAConfiguration.class}; //Mapeia a classe de configurações
 	}
 
 	@Override
 	protected String[] getServletMappings() {
 		return new String[] {"/"}; //significa que sera a raiz para o sistema atender
 	}
+	
+    @Override //adiciona um filter para alterar o encoding
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        return new Filter[] {characterEncodingFilter};
+    }
 
 }
