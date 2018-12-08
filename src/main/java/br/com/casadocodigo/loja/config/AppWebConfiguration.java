@@ -1,7 +1,9 @@
 package br.com.casadocodigo.loja.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -20,6 +22,16 @@ public class AppWebConfiguration {
 		
 		return resolver;
 		
+	}
+	
+	//Configuração para encontrar o arquivo message.properties
+	@Bean
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource message = new ReloadableResourceBundleMessageSource();
+		message.setBasename("/WEB-INF/messages");
+		message.setDefaultEncoding("UTF-8");
+		message.setCacheSeconds(1);
+		return message;
 	}
 
 }
