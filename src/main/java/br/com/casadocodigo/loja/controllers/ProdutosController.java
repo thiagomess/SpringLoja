@@ -11,10 +11,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.casadocodigo.loja.daos.ProdutoDao;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.model.Produto;
 import br.com.casadocodigo.loja.model.TipoPreco;
 import br.com.casadocodigo.loja.validation.ProdutoValidation;
@@ -25,6 +27,9 @@ public class ProdutosController {
 	
 	@Autowired
 	private ProdutoDao produtoDao;
+	
+	@Autowired
+	private FileSaver fileSaver;
 	
 	@InitBinder //Para o produto controller poder reconhecer o ProdutoValidation
 	public void initBinder(WebDataBinder binder) {
@@ -41,12 +46,16 @@ public class ProdutosController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView grava(@Valid Produto produto, BindingResult result, RedirectAttributes redirectAttributes ) {
+	public ModelAndView grava(MultipartFile sumario, @Valid Produto produto, BindingResult result, RedirectAttributes redirectAttributes ) {
 		
 		if (result.hasErrors()) {
 			return form(produto);
 		}
 		
+		//salva na pasta arquivos-sumario
+		String path = fileSaver.write("arquivos-sumario", sumario);
+		
+		produto.setSumarioPath(path);
 		produtoDao.gravar(produto);
 		//Adiciona a mensagem no flash para ser exibida em outra pagina
 		redirectAttributes.addFlashAttribute("sucesso", "Livro cadastrado com sucesso!");

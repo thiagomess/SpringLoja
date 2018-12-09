@@ -26,6 +26,7 @@ public class Produto {
 	private Calendar dataLancamento;
 	@ElementCollection //adiciona o preco com o produto, em uma outra tabela
 	private List<Preco> precos;
+	private String sumarioPath;
 	
 	
 	public int getId() {
@@ -68,6 +69,12 @@ public class Produto {
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", paginas=" + paginas + "]";
+	}
+	public String getSumarioPath() {
+		return sumarioPath;
+	}
+	public void setSumarioPath(String sumarioPath) {
+		this.sumarioPath = sumarioPath;
 	}
 	
 	

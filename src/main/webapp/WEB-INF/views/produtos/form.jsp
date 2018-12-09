@@ -12,7 +12,7 @@
 <body>	
 	
 	<!-- mvcUrl o PC significa Product Controller e o metodo  -->
-	<form:form action="${s:mvcUrl('PC#grava').build() }" method="post" commandName="produto">
+	<form:form action="${s:mvcUrl('PC#grava').build() }" method="post" commandName="produto" enctype="multipart/form-data">
 	<!-- CommandName= anota que estamos utilizando o bean produto, dessa forma nao precisamos definir produto.titulo  -->
 		<div>
 			<label>Titulo</label>
@@ -43,6 +43,10 @@
 			</div>
 			
 		</c:forEach>
+		<div>
+			<label>Sumário</label>
+			<input name="sumario" type="file"/>
+		</div>
 		
 		<button type="submit">Cadastrar</button>
 		
