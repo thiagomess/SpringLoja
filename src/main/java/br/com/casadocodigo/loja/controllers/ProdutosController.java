@@ -65,7 +65,7 @@ public class ProdutosController {
 		return new ModelAndView("redirect:produtos");
 	}
 	
-	@RequestMapping("/detalhe/{id}")
+	@RequestMapping("/detalhe/{id}") //recebenddo o parametro e linkando o parametro com o @
 	public ModelAndView detalhe(@PathVariable("id") Integer id) {
 		ModelAndView modelAndView = new ModelAndView("produtos/detalhe");
 		
