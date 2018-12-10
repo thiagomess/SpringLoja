@@ -25,4 +25,8 @@ public class ProdutoDao {
 		
 		return em.createQuery(jpql, Produto.class).getResultList();
 	}
+
+	public Produto find(Integer id) {
+		return em.createQuery("select distinct(p) from Produto p join fetch p.precos precos where p.id = :id", Produto.class).setParameter("id", id).getSingleResult();
+	}
 }
