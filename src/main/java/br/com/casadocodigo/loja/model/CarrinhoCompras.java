@@ -1,7 +1,11 @@
 package br.com.casadocodigo.loja.model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -16,15 +20,20 @@ import org.springframework.web.context.WebApplicationContext;
 @Component  
 //Guarda a sessao dos itens que foram adicionados ao carrinho
 @Scope(value=WebApplicationContext.SCOPE_SESSION)
-public class CarrinhoCompras {
+public class CarrinhoCompras implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Map<CarrinhoItem, Integer> itens = new LinkedHashMap<CarrinhoItem, Integer>();
 
 	public void add(CarrinhoItem item) {
 		itens.put(item, getQuantidade(item) + 1);
 	}
 
-	private int getQuantidade(CarrinhoItem item) {
+	public Integer getQuantidade(CarrinhoItem item) {
 		if (!itens.containsKey(item)) {
 			itens.put(item, 0);
 		}
@@ -36,4 +45,46 @@ public class CarrinhoCompras {
 		 Integer reduce = itens.values().stream().reduce(0, (proximo, acumulador) -> proximo + acumulador);
 		 return reduce;
 	}
+
+	//Pega a quantidade de itens que tem no MAP
+	public Collection<CarrinhoItem> getItens() {
+		 Set<CarrinhoItem> keySet = itens.keySet();
+		 return keySet;
+	}
+	
+	//Devolve o valor total de cada item de acordo com sua quantidade
+	public BigDecimal getTotal(CarrinhoItem item) {
+		 BigDecimal total = item.getTotal(getQuantidade(item));
+		 return total;
+	}
+	
+	//Devolve o valor total do carrinho para o pagamento
+	public BigDecimal getTotalCarrinho() {
+		BigDecimal total = BigDecimal.ZERO;
+		
+		for (CarrinhoItem item : itens.keySet()) {
+			total = total.add(getTotal(item));
+		}
+		return total;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

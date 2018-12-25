@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.model;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -97,5 +98,11 @@ public class Produto {
 		return true;
 	}
 	
-	
+	//Pelo tipo do preco, ele retorna o valor do preco
+	public BigDecimal precoPara(TipoPreco tipoPreco) {
+		BigDecimal valor = precos.stream().filter(preco -> preco.getTipo().equals(tipoPreco)).findFirst().get()
+				.getValor();
+		return valor;
+	}
+
 }
