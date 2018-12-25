@@ -3,7 +3,9 @@ package br.com.casadocodigo.loja.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Essa classe serve para verificar se o produto existe no carrinho, 
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component  
+//Guarda a sessao dos itens que foram adicionados ao carrinho
+@Scope(value=WebApplicationContext.SCOPE_SESSION)
 public class CarrinhoCompras {
 
 	private Map<CarrinhoItem, Integer> itens = new LinkedHashMap<CarrinhoItem, Integer>();
