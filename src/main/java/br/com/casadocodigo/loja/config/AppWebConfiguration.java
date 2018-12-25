@@ -18,9 +18,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import br.com.casadocodigo.loja.controllers.HomeController;
 import br.com.casadocodigo.loja.daos.ProdutoDao;
 import br.com.casadocodigo.loja.infra.FileSaver;
+import br.com.casadocodigo.loja.model.CarrinhoCompras;
 
 @EnableWebMvc // recurso de Web MVC do SpringMVC
-@ComponentScan(basePackageClasses= {HomeController.class, ProdutoDao.class, FileSaver.class}) //mapeia onde estao os controllers
+@ComponentScan(basePackageClasses= {HomeController.class, ProdutoDao.class, FileSaver.class, CarrinhoCompras.class}) //mapeia onde estao os controllers
 public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Bean  //Para o Spring gerencia
@@ -28,6 +29,8 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/views/"); //seta a pasta onde estarao as views
 		resolver.setSuffix(".jsp"); //seta o sufixo das JSP
+		
+		resolver.setExposedContextBeanNames("carrinhoCompras"); //permite acesso aos atributos pela JSP
 		
 		return resolver;
 		
