@@ -1,5 +1,11 @@
 package br.com.casadocodigo.loja.config;
 
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +22,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.google.common.cache.CacheBuilder;
+
 import br.com.casadocodigo.loja.controllers.HomeController;
 import br.com.casadocodigo.loja.daos.ProdutoDao;
 import br.com.casadocodigo.loja.infra.FileSaver;
@@ -23,6 +31,7 @@ import br.com.casadocodigo.loja.model.CarrinhoCompras;
 
 @EnableWebMvc // recurso de Web MVC do SpringMVC
 @ComponentScan(basePackageClasses= {HomeController.class, ProdutoDao.class, FileSaver.class, CarrinhoCompras.class}) //mapeia onde estao os controllers
+@EnableCaching //Habilitando o CACHE
 public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Bean  //Para o Spring gerencia
@@ -77,6 +86,20 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
+	}
+	
+	//Configurando o cache para a aplicação
+	@Bean
+	public CacheManager cacheManager() {
+		//É utilizada o cache do Guava, pois a biblioteca propria do Spring nao é recomendada segunda a doc.
+		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+		builder.maximumSize(100).expireAfterAccess(5, TimeUnit.MINUTES);
+		GuavaCacheManager guavaCacheManager = new GuavaCacheManager();
+		guavaCacheManager.setCacheBuilder(builder);
+		return guavaCacheManager;
+				
+		//return new ConcurrentMapCacheManager();//usada só para testes
+		
 	}
 
 }
