@@ -67,6 +67,7 @@ public class ProdutosController {
 		return new ModelAndView("redirect:produtos");
 	}
 	
+	//Apos a configuração esse metodo retorna jsp ou json
 	@RequestMapping("/detalhe/{id}") //recebenddo o parametro e linkando o parametro com o @
 	public ModelAndView detalhe(@PathVariable("id") Integer id) {
 		ModelAndView modelAndView = new ModelAndView("produtos/detalhe");
@@ -77,6 +78,13 @@ public class ProdutosController {
 		return modelAndView;
 		
 	}
+	
+/*	//Forma não muito boa, pois se tiver varios servicos JSON na classe teria mta duplicacao de codigo
+	@RequestMapping("/{id}") //recebenddo o parametro e linkando o parametro com o @
+	@ResponseBody //Permite retornar um json, desde que tenha a biblioteca JAKSON no pom.xml
+	public Produto detalheJson(@PathVariable("id") Integer id) {
+		return produtoDao.find(id);
+	}*/
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView lista() {
