@@ -45,7 +45,7 @@ public class PagamentoController {
 
 				model.addFlashAttribute("sucesso", response); // resposta do rest
 				System.out.println(response);
-				return new ModelAndView("redirect:/produtos");
+				return new ModelAndView("redirect:/");
 
 			} catch (HttpClientErrorException e) {
 				// em caso de falha, seta a mensagem na tela.

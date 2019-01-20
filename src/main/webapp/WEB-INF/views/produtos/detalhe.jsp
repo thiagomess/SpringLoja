@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,7 +100,7 @@
 	  
 	  <section class="buy-options clearfix">  
 	  <!--  action='<c:url value="/carrinho/add" />' desse modo ele nao perde o contexto -->
-	  <form action='<c:url value="/carrinho/add" />' method="post" class="container">
+	  <form:form servletRelativeAction="/carrinho/add" method="post" cssClass="container">
 	 
 	    <ul id="variants" class="clearfix">
 	    	<input type="hidden" value="${produto.id}" name="produtoId"/>
@@ -119,7 +120,7 @@
 	    
 	    <button type="submit" class="submit-image icon-basket-alt" alt="Compre Agora" title="Compre Agora '${preco.titulo}'!"></button>
 	    
-	  </form>
+	  </form:form>
 	  
 	</section>
 	  

@@ -9,18 +9,18 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 
 //Classe de servlet do spring
-
 public class ServeletSpringMvc extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		//Sobe a configuração de segurança quando o sistema subir
+		return new Class[] {SecurityConfiguration.class, AppWebConfiguration.class, JPAConfiguration.class}; ///por conta do login, tem que passar o JPa para ca
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] {AppWebConfiguration.class, JPAConfiguration.class}; //Mapeia a classe de configurações
+//		return new Class[] {AppWebConfiguration.class, JPAConfiguration.class}; //Mapeia a classe de configurações
+		return new Class[] {};
 	}
 
 	@Override

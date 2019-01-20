@@ -31,6 +31,7 @@ public class CarrinhoController {
 		ModelAndView modelAndView = new ModelAndView("redirect:/carrinho");
 		CarrinhoItem carrinhoItem = criaItem(produtoId, tipoPreco);
 		carrinho.add(carrinhoItem);
+		modelAndView.addObject("carrinho", carrinho);
 		
 		return modelAndView;
 		

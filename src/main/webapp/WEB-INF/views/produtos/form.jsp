@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,15 +41,23 @@
         <li><a href="${s:mvcUrl('PC#lista').build()}">Lista de Produtos</a></li>
         <li><a href="${s:mvcUrl('PC#form').build()}">Cadastro de Produtos</a></li>
       </ul>
+       <!--  exibindo nome de usuario-->
+        <ul class="nav navbar-nav navbar-right">
+		  <li><a href="#"><security:authentication property="principal.username"/></a></li>
+		  <li><a href="/casadocodigo/logout"/>logout</a></li>
+      </ul>
     </div><!-- /.navbar-collapse -->
   </div>
 </nav>
 	
-	<h1>Cadasto de Produto</h1>
+	
 	
 	<!-- mvcUrl o PC significa Product Controller e o metodo  -->
 	<form:form action="${s:mvcUrl('PC#grava').build() }" method="post" commandName="produto" enctype="multipart/form-data">
 	<!-- CommandName= anota que estamos utilizando o bean produto, dessa forma nao precisamos definir produto.titulo  -->
+		
+		<div class="container">
+		<h1>Cadasto de Produto</h1>
 		<div class="form-group">
 			<label>Titulo</label>
 			<form:input path="titulo" cssClass="form-control"/> <!-- os dados ficam sabado caso de erro -->
@@ -84,8 +93,10 @@
 		</div>
 		
 		<button type="submit" class="btn btn-primary">Cadastrar</button>
-		
+		</div>
 	</form:form>
+	
+	
 
 </body>
 </html>
