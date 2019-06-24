@@ -106,7 +106,7 @@ public class Produto implements Serializable {
 	
 	//Pelo tipo do preco, ele retorna o valor do preco
 	public BigDecimal precoPara(TipoPreco tipoPreco) {
-		BigDecimal valor = precos.stream().filter(preco -> preco.getTipo().equals(tipoPreco)).findFirst().get()
+		BigDecimal valor = precos.stream().filter(precos -> precos.getTipo().equals(tipoPreco)).findFirst().get()
 				.getValor();
 		return valor;
 	}
