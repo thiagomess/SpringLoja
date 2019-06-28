@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 
 //Ativa a configurações de segurança, deve adicionar tb a classe a classe ServletSpringMVC
@@ -24,6 +26,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	//Configura as roles e acesso aos usuarios
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		//problema de charset acontece por conta do Spring Security. Após você habilitá-lo no projeto, ele meio que "sobrescreve" aquele CharacterEncodingFilter.
+	    CharacterEncodingFilter filter = new CharacterEncodingFilter();
+	    filter.setEncoding("UTF-8");
+	    filter.setForceEncoding(true);
+	    http.addFilterBefore(filter,CsrfFilter.class);
+	    
+	    
 		 http.authorizeRequests()
 		    .antMatchers("/resources/**").permitAll()
 		    .antMatchers("/carrinho/**").permitAll()

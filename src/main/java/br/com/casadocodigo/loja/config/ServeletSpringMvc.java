@@ -2,8 +2,11 @@ package br.com.casadocodigo.loja.config;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -39,6 +42,14 @@ public class ServeletSpringMvc extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected void customizeRegistration(Dynamic registration) {
     	registration.setMultipartConfig(new MultipartConfigElement(""));
+    }
+    
+    //Configuração para adicionar o profile de qual banco de dados que ficará ativo ao startar o servidor
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+    	super.onStartup(servletContext);
+    	servletContext.addListener(RequestContextListener.class);
+    	servletContext.setInitParameter("spring.profiles.active", "dev");
     }
 
 }
