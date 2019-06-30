@@ -2,6 +2,7 @@ package br.com.casadocodigo.loja.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.cache.CacheManager;
@@ -15,6 +16,8 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
@@ -138,5 +141,27 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 //		return new SessionLocaleResolver();
 		
 	}
+	
+	
+	//criamos um novo método anotado com @Bean que retorna um objeto do tipo MailSender. A classe que implementa esta interface é a JavaMailSenderImpl 
+	//e será através do objeto desta classe que iremos configurar todo o acesso ao servidor de emails.
+	@Bean
+	public MailSender mailSender(){
+	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+	    mailSender.setHost("smtp.gmail.com");
+	    mailSender.setUsername("@gmail.com"); //Configurações de email
+	    mailSender.setPassword(""); //senha
+
+	    Properties mailProperties = new Properties();
+	    mailProperties.put("mail.smtp.auth", true);
+	    mailProperties.put("mail.smtp.starttls.enable", true);
+	    mailProperties.put("mail.smtp.port", 587);
+	    
+
+	    mailSender.setJavaMailProperties(mailProperties);
+	    return mailSender;
+	}
+	//Por último, precisaremos adicionar como dependência do nosso projeto a biblioteca do Java Mail, pois sem esta, o envio de email simplesmente não irá funcionar no pom.xml
 	
 }

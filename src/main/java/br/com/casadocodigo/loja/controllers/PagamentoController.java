@@ -3,6 +3,9 @@ package br.com.casadocodigo.loja.controllers;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.casadocodigo.loja.model.CarrinhoCompras;
 import br.com.casadocodigo.loja.model.DadosPagamento;
+import br.com.casadocodigo.loja.model.Usuario;
 
 @Controller
 @RequestMapping("/pagamento")
@@ -23,9 +27,13 @@ public class PagamentoController {
 
 	@Autowired
 	private RestTemplate restTemplate;
-
+	
+	@Autowired
+	private MailSender sender;
+	
+//	O Spring Security consegue nos passar este usuário com a anotação @AuthenticationPrincipal  Usuario usuario.
 	@RequestMapping(value = "/finalizar", method = RequestMethod.POST)
-	public Callable<ModelAndView> finalizar(RedirectAttributes model) {
+	public Callable<ModelAndView> finalizar(@AuthenticationPrincipal Usuario usuario, RedirectAttributes model) {
 
 		// Utilizando o metodo Callable, o processo fica de forma assincrona, sendo
 		// necessario utilizar uma classse anonima.
@@ -43,6 +51,7 @@ public class PagamentoController {
 				String response = restTemplate.postForObject(uri, new DadosPagamento(carrinho.getTotalCarrinho()),
 						String.class);
 
+				enviaEmailCompraProduto(usuario);
 				model.addFlashAttribute("sucesso", response); // resposta do rest
 				System.out.println(response);
 				return new ModelAndView("redirect:/");
@@ -57,5 +66,16 @@ public class PagamentoController {
 
 		};
 
+	}
+
+	private void enviaEmailCompraProduto(Usuario usuario) {
+		SimpleMailMessage email = new SimpleMailMessage();
+		email.setSubject("Compra finalizada com sucesso");
+//		email.setTo(usuario.getUsername());
+		email.setTo("thiagogomes19@hotmail.com");
+		email.setText("Compra aprovada com sucesso no valor de R$ " + carrinho.getTotalCarrinho() );
+		email.setFrom("compras@casadocdigo.com.br");
+		
+		sender.send(email);
 	}
 }

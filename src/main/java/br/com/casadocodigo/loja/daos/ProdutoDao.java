@@ -25,7 +25,8 @@ public class ProdutoDao {
 	}
 
 	public List<Produto> lista() {
-		String jpql ="Select p from Produto p";
+		//Quando temos problemas de LazyInitializationException devemos usar o join fetch e o distinct
+		String jpql ="Select distinct(p) from Produto p join fetch p.precos";
 		
 		return em.createQuery(jpql, Produto.class).getResultList();
 	}

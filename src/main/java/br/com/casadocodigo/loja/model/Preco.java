@@ -32,4 +32,11 @@ public class Preco implements Serializable{
 		this.tipo = tipo;
 	}
 
+	@Override
+	public String toString() {
+		return this.tipo.name() + " - " +this.valor;
+	}
+	
+	
+
 }

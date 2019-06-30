@@ -181,12 +181,18 @@
 			<scope>test</scope>
 		</dependency>
 
-	<dependency>
-		<groupId>org.springframework.security</groupId>
-		<artifactId>spring-security-test</artifactId>
-		<version>4.1.5.RELEASE</version>
-		<scope>test</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>4.1.5.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+<!-- 		Email -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
 
 
 

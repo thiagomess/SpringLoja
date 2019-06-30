@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -35,7 +36,10 @@ public class ServeletSpringMvc extends AbstractAnnotationConfigDispatcherServlet
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
-        return new Filter[] {characterEncodingFilter};
+        //Há um filtro pronto especifico para a solução deste problema chamado OpenEntityManagerInViewFilter.
+//        Com este filtro configurado, podemos remover o join adicionado anteriormente e ver que a listagem continua funcionado.
+//        Mas cuidado, o uso do Lazy Inicialization que faz esse carregamento tardio dos recursos pode nos trazer problemas, com muitos selects
+        return new Filter[] {characterEncodingFilter, new OpenEntityManagerInViewFilter()};
     }
     
     //Configuração para o arquivo Multipart
