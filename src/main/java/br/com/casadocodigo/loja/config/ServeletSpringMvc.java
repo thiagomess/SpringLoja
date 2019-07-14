@@ -18,7 +18,7 @@ public class ServeletSpringMvc extends AbstractAnnotationConfigDispatcherServlet
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		//Sobe a configuração de segurança quando o sistema subir
-		return new Class[] {SecurityConfiguration.class, AppWebConfiguration.class, JPAConfiguration.class}; ///por conta do login, tem que passar o JPa para ca
+		return new Class[] {SecurityConfiguration.class, AppWebConfiguration.class, JPAConfiguration.class, JPAProductionConfiguration.class}; ///por conta do login, tem que passar o JPa para ca
 	}
 
 	@Override
@@ -48,12 +48,15 @@ public class ServeletSpringMvc extends AbstractAnnotationConfigDispatcherServlet
     	registration.setMultipartConfig(new MultipartConfigElement(""));
     }
     
+    //PARA USAR O HEROKU, DEVE COMENTAT AQUI, PARA MUDAR O PROFILE DE INICIALIZAÇÃO
     //Configuração para adicionar o profile de qual banco de dados que ficará ativo ao startar o servidor
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-    	super.onStartup(servletContext);
-    	servletContext.addListener(RequestContextListener.class);
-    	servletContext.setInitParameter("spring.profiles.active", "dev");
-    }
+//    @Override
+//    public void onStartup(ServletContext servletContext) throws ServletException {
+//    	super.onStartup(servletContext);
+//    	servletContext.addListener(RequestContextListener.class);
+//    	servletContext.setInitParameter("spring.profiles.active", "dev");
+//    }
+    
+    
 
 }

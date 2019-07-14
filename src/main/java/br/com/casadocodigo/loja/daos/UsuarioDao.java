@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,6 +37,15 @@ public class UsuarioDao implements UserDetailsService {
 
 		return usuarios.get(0);
 
+	}
+	
+	public List<Usuario> findAllUsuarios(){
+		  CriteriaBuilder cb = manager.getCriteriaBuilder();
+	        CriteriaQuery<Usuario> criteria = cb.createQuery(Usuario.class);
+	        Root<Usuario> usuario = criteria.from(Usuario.class);
+	        
+	        criteria.select(usuario).orderBy(cb.asc(usuario.get("nome")));
+			return manager.createQuery(criteria).getResultList();
 	}
 	
 /*	insert into Usuario (email, nome, senha) values ('admin@casadocodigo.com.br', 'Administrador', '$2a$04$qP517gz1KNVEJUTCkUQCY.JzEoXzHFjLAhPQjrg5iP6Z/UmWjvUhq')

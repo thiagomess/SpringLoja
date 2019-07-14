@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class JPAConfiguration {
 	
 	@Bean //Para o spring visualizar esse metodo
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, Properties additionalProperties) {
 		//Cria a fabrica de EntityManager
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean(); 
 		
@@ -30,7 +30,7 @@ public class JPAConfiguration {
 		factory.setDataSource(dataSource);
 		
 		//Adiciona as properties do hibernate
-		factory.setJpaProperties(additionalProperties());
+		factory.setJpaProperties(additionalProperties);
 		
 		//Seta onde estao as entidades que serão persistidas
 		factory.setPackagesToScan("br.com.casadocodigo.loja.model");
@@ -38,6 +38,8 @@ public class JPAConfiguration {
 		return factory;
 	}
 
+	@Bean
+	@Profile("dev") 
 	private Properties additionalProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
@@ -56,6 +58,8 @@ public class JPAConfiguration {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		return dataSource;
 	}
+	
+	
 	
 	//Cria as transacoes do EntityManager
 	@Bean  
